@@ -1,0 +1,3 @@
+# Project exclude paths
+/cypress/integration/examples/test1.js
+/node_modules/

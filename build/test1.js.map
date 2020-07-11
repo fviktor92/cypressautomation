@@ -1,0 +1,1 @@
+{"version":3,"file":"test1.js","sourceRoot":"","sources":["../cypress/integration/examples/test1.ts"],"names":[],"mappings":"AAAA,QAAQ,CAAC,eAAe,EAAE;IACtB,EAAE,CAAC,mBAAmB,EAAE;QACpB,MAAM,CAAC,IAAI,CAAC,CAAC,EAAE,CAAC,KAAK,CAAC,KAAK,CAAC,CAAA;IAChC,CAAC,CAAC,CAAC;AACP,CAAC,CAAC,CAAC"}

@@ -1,0 +1,20 @@
+{
+  "name": "cypressautomation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cy:run": "cypress run",
+    "cy:open": "cypress open"
+  },
+  "keywords": [],
+  "author": "Viktor Farkas",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^4.10.0"
+  },
+  "dependencies": {
+    "typescript": "^3.9.6"
+  }
+}
