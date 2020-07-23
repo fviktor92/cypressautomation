@@ -53,5 +53,8 @@ describe('My First Test Suite', function (): void
         cy.get("#displayed-text").should("not.be.visible");
         cy.get("#show-textbox").click();
         cy.get("#displayed-text").should("be.visible");
+
+        // Radio buttons
+        cy.get("[value='radio2']").check().should("be.checked");
     });
 });

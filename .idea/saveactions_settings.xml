@@ -7,8 +7,8 @@
         <option value="activateOnShortcut" />
         <option value="noActionIfCompileErrors" />
         <option value="reformat" />
+        <option value="rearrange" />
       </set>
     </option>
-    <option name="configurationPath" value="" />
   </component>
 </project>
