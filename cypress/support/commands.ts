@@ -1,4 +1,3 @@
-"use strict";
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -24,9 +23,13 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
-Cypress.Commands.add("selectProduct", (productName) => {
-    cy.get("h4.card-title").each((element, index, list) => {
-        if (element.text().includes(productName)) {
+
+Cypress.Commands.add("selectProduct", (productName) =>
+{
+    cy.get("h4.card-title").each((element: JQuery<HTMLElement>, index: number, list: HTMLElement[]) =>
+    {
+        if (element.text().includes(productName))
+        {
             cy.get("button.btn").eq(index).click();
         }
     });
