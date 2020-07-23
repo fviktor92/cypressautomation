@@ -1,4 +1,5 @@
 "use strict";
+/// <reference path="../../support/index.d.ts" />
 describe('My Fourth Test Suite', function () {
     before(function () {
         cy.fixture("example.json").then((data) => {
@@ -7,7 +8,15 @@ describe('My Fourth Test Suite', function () {
     });
     it("Data Driven testing with fixtures", function () {
         cy.visit("https://rahulshettyacademy.com/angularpractice");
-        cy.get("form input[name='name']").type(this.data.name);
+        cy.get("form input[name='name']").as("nameInput").type(this.data.name);
         cy.get("form select").select(this.data.gender);
+        cy.get("h4 input").should("have.value", this.data.name);
+        cy.get("@nameInput").should("have.attr", "minlength", "2");
+        cy.get("#inlineRadio3").should("be.disabled");
+    });
+    it("Customized Commands", function () {
+        cy.visit("https://rahulshettyacademy.com/angularpractice");
+        cy.get(".navbar-nav .nav-item:nth-child(2) .nav-link").click();
+        cy.selectProduct("BlackBerry");
     });
 });
