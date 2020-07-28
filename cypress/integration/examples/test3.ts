@@ -2,7 +2,7 @@ describe("My third test suite", function (): void
 {
     it("Handling Web Tables", function (): void
     {
-        cy.visit("https://rahulshettyacademy.com/AutomationPractice/");
+        cy.visit(Cypress.env("url") + "/AutomationPractice/");
         cy.get("tr td:nth-child(2)").each((element: JQuery<HTMLElement>) =>
         {
             let text = element.text();
@@ -16,7 +16,7 @@ describe("My third test suite", function (): void
 
     it("Handling Mouse hover popups", function (): void
     {
-        cy.visit("https://rahulshettyacademy.com/AutomationPractice/");
+        cy.visit(Cypress.env("url") + "/AutomationPractice/");
         cy.get(".mouse-hover-content").invoke("show")
           .contains("Top").click();
         cy.url().should("include", "top");

@@ -2,10 +2,11 @@ describe('My First Test Suite', function (): void
 {
     it("Product filtering", function (): void
     {
-        cy.visit("https://rahulshettyacademy.com/seleniumPractise/#/");
-        cy.get(".search-keyword").type("ca")
-            // Finds the descendent DOM elements with the given selector and clicking the third
-          .get(".products").as("productsLocator").find(".product").should("have.length", 4)
+        cy.visit(Cypress.env("url") + "/seleniumPractise/#/");
+        cy.get(".search-keyword").type("ca");
+        cy.wait(2000);
+        // Finds the descendent DOM elements with the given selector and clicking the third
+        cy.get(".products").as("productsLocator").find(".product").should("have.length", 4)
           .eq(2).contains("ADD TO CART").click();
         // Iterating through found elements and clicking that contains expected text
         cy.get("@productsLocator").find(".product").each((element: JQuery<HTMLElement>): void =>
@@ -27,7 +28,7 @@ describe('My First Test Suite', function (): void
 
     it("Handling Web Controls UI", function (): void
     {
-        cy.visit("https://rahulshettyacademy.com/AutomationPractice/");
+        cy.visit(Cypress.env("url") + "/AutomationPractice/");
         // Checkbox
         cy.get("#checkBoxOption1").check().should("be.checked").and("have.value", "option1");
         cy.get("#checkBoxOption1").uncheck().should("not.be.checked");

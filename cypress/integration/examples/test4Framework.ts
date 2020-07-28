@@ -1,7 +1,7 @@
 /// <reference path="../../support/index.d.ts" />
 
-import HomePage from "../pageObjects/HomePage";
-import ShopPage from "../pageObjects/ShopPage";
+import HomePage from "../../support/pageObjects/HomePage";
+import ShopPage from "../../support/pageObjects/ShopPage";
 
 describe('My Fourth Test Suite', function (): void
 {
@@ -15,7 +15,7 @@ describe('My Fourth Test Suite', function (): void
 
     it("Data Driven testing with fixtures", function (): void
     {
-        cy.visit("https://rahulshettyacademy.com/angularpractice");
+        cy.visit(Cypress.env("url") + "/angularpractice");
         const homePage: HomePage = new HomePage();
         homePage.getNameInput().type(this.data.name);
         homePage.getGenderSelect().select(this.data.gender);
@@ -26,7 +26,7 @@ describe('My Fourth Test Suite', function (): void
 
     it("Customized Commands", function (): void
     {
-        cy.visit("https://rahulshettyacademy.com/angularpractice");
+        cy.visit(Cypress.env("url") + "/angularpractice");
         const homePage: HomePage = new HomePage();
         homePage.getShopTab().click();
         const shopPage: ShopPage = new ShopPage();
@@ -34,6 +34,25 @@ describe('My Fourth Test Suite', function (): void
         {
             cy.selectProduct(productName);
         });
-        shopPage.getCheckOutBtn().click();
+        shopPage.getProductsCheckOutBtn().click();
+
+        let sum: number = 0;
+        shopPage.getProductPriceTexts().each(element =>
+        {
+            let actualPrice: number = Number(element.text().split(" ")[1].trim());
+            sum += actualPrice;
+        });
+        shopPage.getTotalPriceText().then(element =>
+        {
+            let actualTotalPrice: number = Number(element.text().split(" ")[1].trim());
+            expect(actualTotalPrice).to.equal(sum);
+        })
+
+        shopPage.getSummaryCheckOutBtn().click();
+        shopPage.getLocationTextInput().type("In");
+        shopPage.selectFromLocationDropdown("India");
+        shopPage.setTermsAndConditions(true);
+        shopPage.getPurchaseBtn().click();
+        shopPage.getAlertMessage().should("include.text", "Success! Thank you! Your order will be delivered in next few weeks :-).");
     });
 });

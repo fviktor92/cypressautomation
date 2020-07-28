@@ -1,7 +1,7 @@
 "use strict";
 describe('My Second Test Suite', function () {
     it("Handling Alerts", function () {
-        cy.visit("https://rahulshettyacademy.com/AutomationPractice/");
+        cy.visit(Cypress.env("url") + "/AutomationPractice/");
         cy.get("#alertbtn").click();
         cy.get("[value='Confirm'").click();
         // Firing window:alert event
@@ -16,7 +16,7 @@ describe('My Second Test Suite', function () {
         });
     });
     it("Handling Child tab", function () {
-        cy.visit("https://rahulshettyacademy.com/AutomationPractice/");
+        cy.visit(Cypress.env("url") + "/AutomationPractice/");
         cy.get("#opentab").invoke("removeAttr", "target").click();
         cy.url().should("equal", "https://www.rahulshettyacademy.com/#/index");
         cy.go("back");

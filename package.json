@@ -12,7 +12,9 @@
   "author": "Viktor Farkas",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^4.10.0"
+    "cypress": "^4.11.0",
+    "mocha": "^8.0.1",
+    "mochawesome": "^6.1.1"
   },
   "dependencies": {
     "typescript": "^3.9.6"

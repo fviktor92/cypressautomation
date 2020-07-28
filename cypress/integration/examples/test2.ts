@@ -2,7 +2,7 @@ describe('My Second Test Suite', function (): void
 {
     it("Handling Alerts", function (): void
     {
-        cy.visit("https://rahulshettyacademy.com/AutomationPractice/");
+        cy.visit(Cypress.env("url") + "/AutomationPractice/");
         cy.get("#alertbtn").click();
         cy.get("[value='Confirm'").click();
 
@@ -23,7 +23,7 @@ describe('My Second Test Suite', function (): void
 
     it("Handling Child tab", function (): void
     {
-        cy.visit("https://rahulshettyacademy.com/AutomationPractice/");
+        cy.visit(Cypress.env("url") + "/AutomationPractice/");
         cy.get("#opentab").invoke("removeAttr", "target").click();
         cy.url().should("equal", "https://www.rahulshettyacademy.com/#/index");
         cy.go("back");
