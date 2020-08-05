@@ -4,5 +4,8 @@
 declare namespace Cypress {
     interface Chainable {
         selectProduct(value: string): Chainable<Element>;
+        clickChimpanzeeTiles(): Chainable<Element>;
+        clickVisualWhiteSquares(): Chainable<Element>;
+        logHumanBenchmarkResults(value: string): Chainable<Element>;
     }
 }

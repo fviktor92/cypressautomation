@@ -24,7 +24,7 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-Cypress.Commands.add("selectProduct", (productName) =>
+Cypress.Commands.add("selectProduct", (productName: string): void =>
 {
     cy.get("h4.card-title").each((element: JQuery<HTMLElement>, index: number, list: HTMLElement[]) =>
     {
@@ -33,4 +33,50 @@ Cypress.Commands.add("selectProduct", (productName) =>
             cy.get("button.btn").eq(index).click();
         }
     });
+});
+
+Cypress.Commands.add("clickChimpanzeeTiles", (): void =>
+{
+    let numberTiles: JQuery<HTMLElement>[] = [];
+    cy.get("div[data-test='true'] div").each((div: JQuery<HTMLElement>): void =>
+    {
+        let width: string = div.css("width");
+        let height: string = div.css("height");
+        let border: string = div.css("border");
+
+        if (width.includes("80px") && height.includes("80px") && border.includes("5px"))
+        {
+            numberTiles.push(div);
+        }
+    }).then((): void =>
+    {
+        numberTiles.sort((a: JQuery<HTMLElement>, b: JQuery<HTMLElement>): number => Number.parseInt(a.text()) - Number.parseInt(b.text()));
+        // let tileInnerTexts: string[] = Array.from(numberTiles, numberTile => numberTile.text());
+        numberTiles.forEach((numberTile: JQuery<HTMLElement>, index: number, array: JQuery<HTMLElement>[]): void =>
+        {
+            // cy.log("Click " + tileInnerTexts[index]);
+            numberTile.trigger("click");
+        });
+    })
+});
+
+Cypress.Commands.add("clickVisualWhiteSquares", (): void =>
+{
+    let whiteTiles: JQuery<HTMLElement>[] = [];
+    cy.get(".square.active").as("activeSquare").each((activeSquare: JQuery<HTMLElement>): void =>
+    {
+        whiteTiles.push(activeSquare);
+    }).then((): void =>
+    {
+        cy.get("@activeSquare").should("have.css", "background-color").and("not.contain", "rgb(255, 255, 255)");
+        whiteTiles.forEach((whiteTile: JQuery<HTMLElement>): void =>
+        {
+            whiteTile.trigger("click")
+        });
+    });
+});
+
+Cypress.Commands.add("logHumanBenchmarkResults", (resultSelector: string): void =>
+{
+    cy.get(resultSelector).then((result: JQuery<HTMLElement>): Cypress.Chainable<null> => cy.log(result.text()));
 });
