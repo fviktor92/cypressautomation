@@ -4,9 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "cy:run": "cypress run",
-    "cy:open": "cypress open"
+    "cy:open": "cypress open",
+    "cy:headlessChrome": "npm run cy:run -- --browser chrome --headless",
+    "cy:headedChrome": "npm run cy:run -- --browser chrome --headed",
+    "cy:recordHeadlessChrome": "npm run cy:headlessChrome -- --record --key b09c071a-e94f-4c12-a332-b97de462e9fb",
+    "cy:recordHeadedChrome": "npm run cy:headedChrome -- --record --key b09c071a-e94f-4c12-a332-b97de462e9fb",
+    "cy:recordHeadlessElectron": "npm run cy:run -- --record --key b09c071a-e94f-4c12-a332-b97de462e9fb"
   },
   "keywords": [],
   "author": "Viktor Farkas",
