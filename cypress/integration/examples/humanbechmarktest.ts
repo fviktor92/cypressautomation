@@ -35,12 +35,24 @@ describe("Human Benchmark test", function (): void
         cy.clickChimpanzeeTiles();
     });
 
-    it("Visual Memory Test", function (): void
+    it.skip("Visual Memory Test", function (): void
     {
         cy.visit("https://humanbenchmark.com/tests/memory");
 
         // Click the 'Start' button and start the test
         cy.contains("Start").click({force: true});
         cy.clickVisualWhiteSquares();
+    });
+
+    it.only("Typing Test", function (): void
+    {
+        cy.visit("https://humanbenchmark.com/tests/typing");
+
+        // Just start typing
+        cy.get(".letters").as("letters").invoke("text").then((innerText: string): void =>
+        {
+            cy.get("@letters").type(innerText);
+        });
+        cy.logHumanBenchmarkResults("div[data-test='true'] h1");
     });
 });

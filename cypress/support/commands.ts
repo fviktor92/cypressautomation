@@ -100,38 +100,37 @@ Cypress.Commands.add("clickChimpanzeeTiles", (): Cypress.Chainable<JQuery<HTMLEl
 Cypress.Commands.add("clickVisualWhiteSquares", (): Cypress.Chainable<JQuery<HTMLElement>> =>
 {
     let level: number = 0;
-    let maxLevel: number = 37;
+    let maxLevel: number = 100;
 
     function clickSquares(): Cypress.Chainable<JQuery<HTMLElement>>
     {
-        let activeSquareIndices: number[] = [];
+        let activeSquares: JQuery<HTMLElement>[] = [];
         level++;
+        // Wait for the level to change
+        cy.get("div.score:nth-child(1)").should("have.text", `Level:  ${level}`);
         // Wait for the white squares to appear
         cy.get(".square.active").as("activeSquare");
-        return cy.get(".square").as("square").each((square: JQuery<HTMLElement>, index: number): void =>
+        return cy.get(".square").as("square").each((square: JQuery<HTMLElement>): void =>
         {
             if (square.attr("class")?.includes("active"))
             {
-                activeSquareIndices.push(index);
+                activeSquares.push(square);
             }
         }).then((): void =>
         {
             // White squares should disappear
-            cy.get("@activeSquare").should("not.have.css", "background-color", "rgb(255, 255, 255)");
-            cy.get("@square").each((square: JQuery<HTMLElement>, index: number): void =>
-            {
-                if (activeSquareIndices.indexOf(index) > -1)
-                {
-                    cy.log(`Click: ${index}`);
-                    cy.wrap(square).click({force: true});
-                }
-            }).then((): void =>
-            {
-                if (level < maxLevel)
-                {
-                    clickSquares();
-                }
-            });
+            cy.get("@activeSquare").should("not.have.css", "background-color", "rgb(255, 255, 255)")
+              .then((): void =>
+              {
+                  activeSquares.forEach((activeSquare: JQuery<HTMLElement>): void =>
+                  {
+                      cy.wrap(activeSquare).click({force: true});
+                  });
+                  if (level < maxLevel)
+                  {
+                      clickSquares();
+                  }
+              });
         });
     }
 

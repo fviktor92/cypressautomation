@@ -1,5 +1,6 @@
 # Project exclude paths
-/cypress/integration/examples/test1.js
+/cypress/integration/**/**.js
+/cypress/support/**/**.js
 /node_modules/
 /cypress/videos/
 /cypress/screenshots/
