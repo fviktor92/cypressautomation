@@ -16,9 +16,11 @@ describe("Human Benchmark test", function () {
         cy.get("div[data-aim-target='true']").as("target").click({ force: true }).then(() => {
             let hitCounter = 0;
             while (hitCounter < 30) {
-                cy.get("@target").click({ force: true });
-                hitCounter++;
-                cy.log(`Hit: ${hitCounter}`);
+                cy.get("@target").click({ force: true }).then(() => {
+                    hitCounter++;
+                    console.log(hitCounter);
+                    cy.log(`Hit: ${hitCounter}`);
+                });
             }
             // Take the result and print
             cy.logHumanBenchmarkResults("div[data-test='true']");
@@ -33,14 +35,14 @@ describe("Human Benchmark test", function () {
             // Click the Continue and keep clicking the tiles. Max try is 36
             let scoreCounter = 0;
             while (scoreCounter < 36) {
-                cy.log(String(scoreCounter));
-                cy.contains("Continue").click({ force: true });
-                cy.clickChimpanzeeTiles();
-                scoreCounter++;
+                cy.contains("Continue").click({ force: true }).clickChimpanzeeTiles().then(() => {
+                    scoreCounter++;
+                    cy.log(String(scoreCounter));
+                });
             }
         });
     });
-    it.only("Visual Memory Test", function () {
+    it("Visual Memory Test", function () {
         cy.visit("https://humanbenchmark.com/tests/memory");
         // Click the 'Start' button and start the test
         cy.contains("Start").click({ force: true }).then(() => {
@@ -48,8 +50,9 @@ describe("Human Benchmark test", function () {
             let level = 1;
             while (level < 50) {
                 cy.log(`Level: ${level}`);
-                cy.clickVisualWhiteSquares();
-                level++;
+                cy.clickVisualWhiteSquares().then(() => {
+                    level++;
+                });
             }
         });
     });

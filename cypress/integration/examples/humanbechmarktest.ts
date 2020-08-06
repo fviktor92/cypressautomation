@@ -26,9 +26,12 @@ describe("Human Benchmark test", function (): void
             let hitCounter: number = 0;
             while (hitCounter < 30)
             {
-                cy.get("@target").click({force: true});
-                hitCounter++;
-                cy.log(`Hit: ${hitCounter}`);
+                cy.get("@target").click({force: true}).then((): void =>
+                {
+                    hitCounter++;
+                    console.log(hitCounter);
+                    cy.log(`Hit: ${hitCounter}`);
+                });
             }
 
             // Take the result and print
@@ -50,15 +53,16 @@ describe("Human Benchmark test", function (): void
             let scoreCounter: number = 0;
             while (scoreCounter < 36)
             {
-                cy.log(String(scoreCounter));
-                cy.contains("Continue").click({force: true});
-                cy.clickChimpanzeeTiles();
-                scoreCounter++;
+                cy.contains("Continue").click({force: true}).clickChimpanzeeTiles().then((): void =>
+                {
+                    scoreCounter++;
+                    cy.log(String(scoreCounter));
+                });
             }
         });
     });
 
-    it.only("Visual Memory Test", function (): void
+    it("Visual Memory Test", function (): void
     {
         cy.visit("https://humanbenchmark.com/tests/memory");
 
@@ -70,8 +74,10 @@ describe("Human Benchmark test", function (): void
             while (level < 50)
             {
                 cy.log(`Level: ${level}`);
-                cy.clickVisualWhiteSquares();
-                level++;
+                cy.clickVisualWhiteSquares().then((): void =>
+                {
+                    level++;
+                });
             }
         });
     });
