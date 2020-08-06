@@ -50,13 +50,21 @@ Cypress.Commands.add("clickChimpanzeeTiles", () => {
     });
 });
 Cypress.Commands.add("clickVisualWhiteSquares", () => {
-    let whiteTiles = [];
-    cy.get(".square.active").as("activeSquare").each((activeSquare) => {
-        whiteTiles.push(activeSquare);
+    let activeSquareIndices = [];
+    // Wait for the white squares to appear
+    cy.get(".square.active").as("activeSquare");
+    cy.get(".square").as("square").each((square, index) => {
+        var _a;
+        if ((_a = square.attr("class")) === null || _a === void 0 ? void 0 : _a.includes("active")) {
+            activeSquareIndices.push(index);
+        }
     }).then(() => {
-        cy.get("@activeSquare").should("have.css", "background-color").and("not.contain", "rgb(255, 255, 255)");
-        whiteTiles.forEach((whiteTile) => {
-            whiteTile.trigger("click");
+        // White squares should disappear
+        cy.get("@activeSquare").should("not.have.css", "background-color", "rgb(255, 255, 255)");
+        cy.get("@square").each((square, index) => {
+            if (activeSquareIndices.indexOf(index) > -1) {
+                cy.wrap(square).click({ force: true });
+            }
         });
     });
 });

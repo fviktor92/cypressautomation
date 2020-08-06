@@ -62,17 +62,27 @@ Cypress.Commands.add("clickChimpanzeeTiles", (): void =>
 
 Cypress.Commands.add("clickVisualWhiteSquares", (): void =>
 {
-    let whiteTiles: JQuery<HTMLElement>[] = [];
-    cy.get(".square.active").as("activeSquare").each((activeSquare: JQuery<HTMLElement>): void =>
+    let activeSquareIndices: number[] = [];
+
+    // Wait for the white squares to appear
+    cy.get(".square.active").as("activeSquare");
+    cy.get(".square").as("square").each((square: JQuery<HTMLElement>, index: number): void =>
     {
-        whiteTiles.push(activeSquare);
+        if (square.attr("class")?.includes("active"))
+        {
+            activeSquareIndices.push(index);
+        }
     }).then((): void =>
     {
-        cy.get("@activeSquare").should("have.css", "background-color").and("not.contain", "rgb(255, 255, 255)");
-        whiteTiles.forEach((whiteTile: JQuery<HTMLElement>): void =>
+        // White squares should disappear
+        cy.get("@activeSquare").should("not.have.css", "background-color", "rgb(255, 255, 255)");
+        cy.get("@square").each((square: JQuery<HTMLElement>, index: number): void =>
         {
-            whiteTile.trigger("click")
-        });
+            if (activeSquareIndices.indexOf(index) > -1)
+            {
+                cy.wrap(square).click({force: true});
+            }
+        })
     });
 });
 

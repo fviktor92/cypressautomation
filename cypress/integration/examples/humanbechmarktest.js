@@ -40,15 +40,16 @@ describe("Human Benchmark test", function () {
             }
         });
     });
-    it("Visual Memory Test", function () {
+    it.only("Visual Memory Test", function () {
         cy.visit("https://humanbenchmark.com/tests/memory");
         // Click the 'Start' button and start the test
         cy.contains("Start").click({ force: true }).then(() => {
             // Click all the white tiles until last level
-            let scoreCounter = 0;
-            while (scoreCounter < 36) {
+            let level = 1;
+            while (level < 50) {
+                cy.log(`Level: ${level}`);
                 cy.clickVisualWhiteSquares();
-                scoreCounter++;
+                level++;
             }
         });
     });
