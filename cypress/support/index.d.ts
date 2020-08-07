@@ -7,6 +7,7 @@ declare namespace Cypress {
         hitTargets(): Chainable<Element>;
         clickChimpanzeeTiles(): Chainable<Element>;
         clickVisualWhiteSquares(): Chainable<Element>;
+        typeNumbers(): Chainable<Element>;
         logHumanBenchmarkResults(value: string): Chainable<Element>;
     }
 }

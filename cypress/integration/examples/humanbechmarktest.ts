@@ -35,7 +35,7 @@ describe("Human Benchmark test", function (): void
         cy.clickChimpanzeeTiles();
     });
 
-    it.skip("Visual Memory Test", function (): void
+    it("Visual Memory Test", function (): void
     {
         cy.visit("https://humanbenchmark.com/tests/memory");
 
@@ -44,7 +44,7 @@ describe("Human Benchmark test", function (): void
         cy.clickVisualWhiteSquares();
     });
 
-    it.only("Typing Test", function (): void
+    it("Typing Test", function (): void
     {
         cy.visit("https://humanbenchmark.com/tests/typing");
 
@@ -54,5 +54,14 @@ describe("Human Benchmark test", function (): void
             cy.get("@letters").type(innerText);
         });
         cy.logHumanBenchmarkResults("div[data-test='true'] h1");
+    });
+
+    it.only("Number memory", function (): void
+    {
+        cy.visit("https://humanbenchmark.com/tests/number-memory");
+
+        // Click the 'Start' button and type the numbers
+        cy.contains("Start").click({force: true});
+        cy.typeNumbers();
     });
 });

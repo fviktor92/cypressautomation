@@ -24,6 +24,7 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
+
 Cypress.Commands.add("selectProduct", (productName: string): void =>
 {
     cy.get("h4.card-title").each((element: JQuery<HTMLElement>, index: number, list: HTMLElement[]) =>
@@ -55,7 +56,7 @@ Cypress.Commands.add("hitTargets", (): Cypress.Chainable<JQuery<HTMLElement>> =>
     }
 
     return hitTargets();
-})
+});
 
 Cypress.Commands.add("clickChimpanzeeTiles", (): Cypress.Chainable<JQuery<HTMLElement>> =>
 {
@@ -100,7 +101,7 @@ Cypress.Commands.add("clickChimpanzeeTiles", (): Cypress.Chainable<JQuery<HTMLEl
 Cypress.Commands.add("clickVisualWhiteSquares", (): Cypress.Chainable<JQuery<HTMLElement>> =>
 {
     let level: number = 0;
-    let maxLevel: number = 100;
+    let maxLevel: number = 10; // There are probably infinite levels, capping at 10
 
     function clickSquares(): Cypress.Chainable<JQuery<HTMLElement>>
     {
@@ -135,6 +136,36 @@ Cypress.Commands.add("clickVisualWhiteSquares", (): Cypress.Chainable<JQuery<HTM
     }
 
     return clickSquares();
+});
+
+Cypress.Commands.add("typeNumbers", (): Cypress.Chainable<void> =>
+{
+    let level: number = 0;
+    let maxLevel: number = 10; // There are probably infinite levels, capping at 10
+
+    function typeNumber(): Cypress.Chainable<void>
+    {
+        level++;
+
+        // Get the number and type it
+        cy.get(".big-number").then((number: JQuery<HTMLElement>): void =>
+        {
+            let numberText: string = number.text();
+            cy.get("div[data-test='true'] input").type(numberText);
+        });
+
+        return cy.contains("Submit").click({force: true})
+                 .then((): void =>
+                 {
+                     if (level < maxLevel)
+                     {
+                         cy.contains("NEXT").click({force: true});
+                         typeNumber();
+                     }
+                 });
+    }
+
+    return typeNumber();
 });
 
 Cypress.Commands.add("logHumanBenchmarkResults", (resultSelector: string): void =>
