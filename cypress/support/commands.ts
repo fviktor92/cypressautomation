@@ -168,6 +168,43 @@ Cypress.Commands.add("typeNumbers", (): Cypress.Chainable<void> =>
     return typeNumber();
 });
 
+Cypress.Commands.add("playVerbalMemory", (): Cypress.Chainable<JQuery<HTMLElement>> =>
+{
+    let score: number = 0;
+    let maxScore: number = 50; // There are probably infinite score, capping at 50
+    let words: string[] = [];
+
+    function pickButton(): Cypress.Chainable<JQuery<HTMLElement>>
+    {
+        score++;
+
+        // Get the word and store it
+        return cy.get("div[data-test='true'] .word").then((number: JQuery<HTMLElement>): void =>
+        {
+            let numberText: string = number.text();
+            if (words.indexOf(numberText) > -1)
+            {
+                // Click the SEEN button if the world already popped up
+                cy.contains("SEEN").click({force: true});
+            } else
+            {
+                // Store it and press NEW
+                words.push(number.text());
+                cy.contains("NEW").click({force: true});
+            }
+
+        }).then((): void =>
+        {
+            if (score < maxScore)
+            {
+                pickButton();
+            }
+        });
+    }
+
+    return pickButton();
+});
+
 Cypress.Commands.add("logHumanBenchmarkResults", (resultSelector: string): void =>
 {
     cy.get(resultSelector).then((result: JQuery<HTMLElement>): Cypress.Chainable<null> => cy.log(result.text()));

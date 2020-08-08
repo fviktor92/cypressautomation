@@ -56,12 +56,21 @@ describe("Human Benchmark test", function (): void
         cy.logHumanBenchmarkResults("div[data-test='true'] h1");
     });
 
-    it.only("Number memory", function (): void
+    it("Number memory", function (): void
     {
         cy.visit("https://humanbenchmark.com/tests/number-memory");
 
         // Click the 'Start' button and type the numbers
         cy.contains("Start").click({force: true});
         cy.typeNumbers();
+    });
+
+    it.only("Verbal Memory Test", function (): void
+    {
+        cy.visit("https://humanbenchmark.com/tests/verbal-memory");
+
+        // Click the 'Start' button and pick NEW or SEEN
+        cy.contains("Start").click({force: true});
+        cy.playVerbalMemory();
     });
 });
