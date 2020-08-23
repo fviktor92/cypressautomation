@@ -5,9 +5,9 @@ import ShopPage from "../../support/pageObjects/ShopPage";
 
 describe('My Fourth Test Suite', function (): void
 {
-    beforeEach(function ()
+    beforeEach(function (): void
     {
-        cy.fixture("example.json").then((data: object) =>
+        cy.fixture("example.json").then((data: object): void =>
         {
             this.data = data;
         });
@@ -30,19 +30,19 @@ describe('My Fourth Test Suite', function (): void
         const homePage: HomePage = new HomePage();
         homePage.getShopTab().click();
         const shopPage: ShopPage = new ShopPage();
-        this.data.productNames.forEach((productName: string) =>
+        this.data.productNames.forEach((productName: string): void =>
         {
             cy.selectProduct(productName);
         });
         shopPage.getProductsCheckOutBtn().click();
 
         let sum: number = 0;
-        shopPage.getProductPriceTexts().each(element =>
+        shopPage.getProductPriceTexts().each((element: JQuery<HTMLElement>): void =>
         {
             let actualPrice: number = Number(element.text().split(" ")[1].trim());
             sum += actualPrice;
         });
-        shopPage.getTotalPriceText().then(element =>
+        shopPage.getTotalPriceText().then((element: JQuery<HTMLElementTagNameMap["strong"]>): void =>
         {
             let actualTotalPrice: number = Number(element.text().split(" ")[1].trim());
             expect(actualTotalPrice).to.equal(sum);

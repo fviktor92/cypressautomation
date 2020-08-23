@@ -65,7 +65,7 @@ describe("Human Benchmark test", function (): void
         cy.typeNumbers();
     });
 
-    it.only("Verbal Memory Test", function (): void
+    it("Verbal Memory Test", function (): void
     {
         cy.visit("https://humanbenchmark.com/tests/verbal-memory");
 
